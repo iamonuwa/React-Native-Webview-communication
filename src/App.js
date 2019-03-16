@@ -2,12 +2,13 @@ import React, { Component } from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import Button from "./Button";
-
 const MESSAGE_PREFIX = "SENT_FROM_WEBSITE";
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      message: ""
+    };
   }
   componentDidMount() {
     if (document) {
@@ -63,9 +64,8 @@ class App extends Component {
         messageData.prefix === MESSAGE_PREFIX
       ) {
         console.log(`Website received message: ${messageData.payload}`);
-        this.setState({ ...this.state, ...messageData.payload }, () => {
-          // this.printElement(`state: ${JSON.stringify(this.state)}`);
-        });
+        this.setState({ message: messageData.payload });
+        this.openQRScanner();
       }
     } catch (error) {
       console.warn(error);
@@ -86,7 +86,7 @@ class App extends Component {
             target="_blank"
             rel="noopener noreferrer"
           >
-            Learn React
+            {this.state.message ? this.state.message : "Learn React"}
           </a>
           <Button
             onClick={event => {
@@ -101,5 +101,4 @@ class App extends Component {
     );
   }
 }
-
 export default App;
