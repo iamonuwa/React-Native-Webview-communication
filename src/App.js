@@ -5,7 +5,33 @@ import Button from "./Button";
 
 const MESSAGE_PREFIX = "SENT_FROM_WEBSITE";
 class App extends Component {
-  componentDidMount() {}
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+  componentDidMount() {
+    if (document) {
+      document.addEventListener("message", this.handleMessage);
+      console.log("using document");
+    } else if (window) {
+      window.addEventListener("message", this.handleMessage);
+      console.log("using window");
+    } else {
+      console.log("unable to add event listener");
+      return;
+    }
+    this.eventListenersAdded = true;
+  }
+
+  componentWillMount() {
+    if (document) {
+      document.removeEventListener("message", this.handleMessage);
+    } else if (window) {
+      window.removeEventListener("message", this.handleMessage);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {}
   onButtonEvent = (event, payload) => {
     this.sendMessage({
       event,
@@ -31,6 +57,16 @@ class App extends Component {
   handleMessage = event => {
     let messageData;
     try {
+      messageData = JSON.parse(event.nativeEvent.data);
+      if (
+        messageData.hasOwnProperty("prefix") &&
+        messageData.prefix === MESSAGE_PREFIX
+      ) {
+        console.log(`Website received message: ${messageData.payload}`);
+        this.setState({ ...this.state, ...messageData.payload }, () => {
+          // this.printElement(`state: ${JSON.stringify(this.state)}`);
+        });
+      }
     } catch (error) {
       console.warn(error);
       return;
