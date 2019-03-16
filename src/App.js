@@ -5,6 +5,7 @@ import Button from "./Button";
 
 const MESSAGE_PREFIX = "SENT_FROM_WEBSITE";
 class App extends Component {
+  componentDidMount() {}
   onButtonEvent = (event, payload) => {
     this.sendMessage({
       event,
@@ -24,6 +25,15 @@ class App extends Component {
       window.postMessage(message, "*");
     } else {
       throw new Error("Unable to find postMessage");
+    }
+  };
+
+  handleMessage = event => {
+    let messageData;
+    try {
+    } catch (error) {
+      console.warn(error);
+      return;
     }
   };
   render() {
