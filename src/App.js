@@ -12,12 +12,12 @@ class App extends Component {
   componentDidMount() {
     if (document) {
       document.addEventListener("message", this.handleMessage);
-      console.log("using document");
+      alert("using document");
     } else if (window) {
       window.addEventListener("message", this.handleMessage);
-      console.log("using window");
+      alert("using window");
     } else {
-      console.log("unable to add event listener");
+      alert("unable to add event listener");
       return;
     }
     this.eventListenersAdded = true;
