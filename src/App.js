@@ -59,11 +59,11 @@ class App extends Component {
     let messageData;
     try {
       messageData = JSON.parse(event.nativeEvent.data);
+      console.warn(`Website received message: ${messageData.payload}`);
       if (
         messageData.hasOwnProperty("prefix") &&
         messageData.prefix === MESSAGE_PREFIX
       ) {
-        console.log(`Website received message: ${messageData.payload}`);
         this.setState({ message: messageData.payload });
       }
     } catch (error) {
