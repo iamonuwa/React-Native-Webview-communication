@@ -65,7 +65,6 @@ class App extends Component {
       ) {
         console.log(`Website received message: ${messageData.payload}`);
         this.setState({ message: messageData.payload });
-        this.openQRScanner();
       }
     } catch (error) {
       console.warn(error);
